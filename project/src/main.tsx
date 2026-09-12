@@ -4,17 +4,38 @@ import { ClerkProvider } from "@clerk/clerk-react"
 
 import "./index.css"
 import App from "./App.tsx"
+import { EnvSetupScreen } from "./components/EnvSetupScreen.tsx"
+import { isSupabaseConfigured } from "./lib/supabase"
 
-const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const envClerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const localClerkKey = typeof window !== 'undefined' ? localStorage.getItem('VITE_CLERK_PUBLISHABLE_KEY') : null
+const publishableKey = envClerkKey || localClerkKey
 
-if (!publishableKey) {
-  throw new Error("Missing Publishable Key. Please set VITE_CLERK_PUBLISHABLE_KEY in your .env file or Vercel dashboard.")
-}
-
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ClerkProvider publishableKey={publishableKey}>
-      <App />
-    </ClerkProvider>
-  </StrictMode>
+const isValidClerkKey = Boolean(
+  publishableKey &&
+  (publishableKey.startsWith('pk_test_') || publishableKey.startsWith('pk_live_'))
 )
+
+const root = createRoot(document.getElementById("root")!)
+
+if (!isValidClerkKey) {
+  root.render(
+    <StrictMode>
+      <EnvSetupScreen
+        missingVars={{
+          VITE_CLERK_PUBLISHABLE_KEY: !isValidClerkKey,
+          VITE_SUPABASE_URL: !isSupabaseConfigured,
+          VITE_SUPABASE_ANON_KEY: !isSupabaseConfigured,
+        }}
+      />
+    </StrictMode>
+  )
+} else {
+  root.render(
+    <StrictMode>
+      <ClerkProvider publishableKey={publishableKey}>
+        <App />
+      </ClerkProvider>
+    </StrictMode>
+  )
+}
