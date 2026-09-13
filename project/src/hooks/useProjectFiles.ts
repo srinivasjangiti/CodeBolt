@@ -67,6 +67,7 @@ export function buildFileTree(files: VirtualFile[]): FileNode[] {
 export function useProjectFiles() {
   const [files, setFiles] = useState<Record<string, VirtualFile>>({})
   const [activeFile, setActiveFile] = useState<VirtualFile | null>(null)
+  const [openFiles, setOpenFiles] = useState<string[]>([])
   const [projectName, setProjectName] = useState<string>('')
 
   const loadFiles = useCallback((newFiles: VirtualFile[], name: string) => {
@@ -76,14 +77,44 @@ export function useProjectFiles() {
     setProjectName(name)
     // Auto-open first non-directory file
     const firstFile = newFiles.find(f => !f.path.endsWith('/'))
-    if (firstFile) setActiveFile(firstFile)
+    if (firstFile) {
+      setActiveFile(firstFile)
+      setOpenFiles([firstFile.path])
+    } else {
+      setActiveFile(null)
+      setOpenFiles([])
+    }
   }, [])
 
-  const openFile = useCallback((path: string, allFiles?: Record<string, VirtualFile>) => {
-    const source = allFiles ?? files
-    const file = source[path]
-    if (file) setActiveFile(file)
-  }, [files])
+  const openFile = useCallback((fileOrPath: VirtualFile | string) => {
+    const path = typeof fileOrPath === 'string' ? fileOrPath : fileOrPath.path
+    setFiles(prev => {
+      const file = prev[path]
+      if (file) {
+        setActiveFile(file)
+        setOpenFiles(prevOpen => prevOpen.includes(path) ? prevOpen : [...prevOpen, path])
+      }
+      return prev
+    })
+  }, [])
+
+  const closeFile = useCallback((path: string) => {
+    setOpenFiles(prev => {
+      const filtered = prev.filter(p => p !== path)
+      if (activeFile?.path === path) {
+        const nextActivePath = filtered[filtered.length - 1] ?? null
+        if (nextActivePath) {
+          setFiles(f => {
+            setActiveFile(f[nextActivePath] ?? null)
+            return f
+          })
+        } else {
+          setActiveFile(null)
+        }
+      }
+      return filtered
+    })
+  }, [activeFile])
 
   const updateFile = useCallback((path: string, content: string) => {
     setFiles(prev => {
@@ -99,7 +130,7 @@ export function useProjectFiles() {
       const existing = prev[key] ?? { path: key, name, content: '' }
       return { ...prev, [key]: { ...existing, content } }
     })
-    // Update activeFile in a separate setState — never call setState inside setState updater
+    // Update activeFile in a separate setState
     setActiveFile(prev => {
       if (!prev) return prev
       if (prev.path === path) return { ...prev, content }
@@ -126,17 +157,16 @@ export function useProjectFiles() {
       }
       return prev
     })
-    // If the active file was deleted, clear it or open another one
-    setActiveFile(prev => {
-      if (!prev || !resolvedKey) return prev
-      if (prev.path === resolvedKey) return null
-      return prev
-    })
-  }, [])
+
+    if (resolvedKey) {
+      closeFile(resolvedKey)
+    }
+  }, [closeFile])
 
   const clearProject = useCallback(() => {
     setFiles({})
     setActiveFile(null)
+    setOpenFiles([])
     setProjectName('')
   }, [])
 
@@ -148,9 +178,11 @@ export function useProjectFiles() {
     fileList,
     fileTree,
     activeFile,
+    openFiles,
     projectName,
     loadFiles,
     openFile,
+    closeFile,
     updateFile,
     deleteFile,
     clearProject,

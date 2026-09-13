@@ -20,6 +20,7 @@ export function useChats() {
     const { data, error } = await supabase
       .from('chats')
       .select('*')
+      .or(`user_id.eq.${userId},user_id.is.null`)
       .order('updated_at', { ascending: false })
 
     if (!error && data) setChats(data as Chat[])
@@ -39,7 +40,7 @@ export function useChats() {
     const selectedModel = model ?? NVIDIA_MODELS[0].id
     const { data, error } = await supabase
       .from('chats')
-      .insert({ title: 'New Chat', model: selectedModel })
+      .insert({ title: 'New Chat', model: selectedModel, user_id: userId })
       .select()
       .single()
 

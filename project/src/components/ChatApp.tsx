@@ -33,8 +33,8 @@ export default function ChatApp() {
   const zipInputRef = useRef<HTMLInputElement>(null)
 
   const {
-    fileTree, activeFile, projectName, fileList,
-    loadFiles, clearProject, setActiveFile, updateFile, deleteFile
+    fileTree, activeFile, openFiles, projectName, fileList, files,
+    loadFiles, clearProject, openFile, closeFile, updateFile, deleteFile
   } = useProjectFiles()
 
   const {
@@ -433,11 +433,12 @@ export default function ChatApp() {
                     <span className="text-sm font-bold tracking-wide">CODEBOLT</span>
                  </div>
                  <div className="ml-2">
-                    <ModelSelector
-                       value={activeModel}
-                       onChange={handleModelChange}
-                       disabled={!activeChatId || isStreaming}
-                     />
+                     <ModelSelector
+                        value={activeModel}
+                        onChange={handleModelChange}
+                        disabled={!activeChatId || isStreaming}
+                        customModels={settings.customModels}
+                      />
                  </div>
                  {isStreaming && (
                   <div className="flex items-center gap-2 rounded-full border border-border/60 bg-card/60 px-2.5 py-1.5 text-xs shadow-sm ml-2">
@@ -492,13 +493,13 @@ export default function ChatApp() {
 
              {isIdeMode ? (
                <>
-               {/* IDE Mode: File Explorer (left) */}
+                 {/* IDE Mode: File Explorer (left) */}
                  <div className="w-60 shrink-0 border-r border-border flex flex-col h-full">
                    <FileExplorer
                      fileTree={fileTree}
                      projectName={projectName}
                      activeFilePath={activeFile?.path}
-                     onFileOpen={setActiveFile}
+                     onFileOpen={openFile}
                      onOpenFolder={handleOpenFolder}
                      onClearProject={clearProject}
                      onDownload={handleDownload}
@@ -509,14 +510,36 @@ export default function ChatApp() {
                  <div className="flex flex-1 flex-col h-full bg-background overflow-hidden">
                    {/* Editor Tabs */}
                    <div className="flex h-9 shrink-0 items-end border-b border-border bg-muted/20 px-2 pt-1 overflow-x-auto">
-                     {activeFile ? (
-                       <div className="flex h-8 items-center border-t border-x border-border bg-background px-4 text-xs font-medium text-foreground relative top-px rounded-t-sm">
-                         <Code2 className="mr-2 size-3.5 text-blue-400" />
-                         {activeFile.name}
-                         <button onClick={() => setActiveFile(null)} className="ml-2 rounded-sm p-0.5 hover:bg-muted text-muted-foreground">
-                           <X className="size-3" />
-                         </button>
-                       </div>
+                     {openFiles.length > 0 ? (
+                       openFiles.map((filePath) => {
+                         const f = files[filePath]
+                         if (!f) return null
+                         const isActive = activeFile?.path === filePath
+                         return (
+                           <div
+                             key={filePath}
+                             onClick={() => openFile(filePath)}
+                             className={cn(
+                               "flex h-8 items-center border-t border-x px-3 text-xs font-medium relative top-px rounded-t-sm cursor-pointer transition-colors mr-1 shrink-0",
+                               isActive
+                                 ? "border-border bg-background text-foreground shadow-sm"
+                                 : "border-transparent bg-muted/30 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                             )}
+                           >
+                             <Code2 className={cn("mr-1.5 size-3.5", isActive ? "text-amber-400" : "text-muted-foreground")} />
+                             <span className="truncate max-w-[120px]">{f.name}</span>
+                             <button
+                               onClick={(e) => {
+                                 e.stopPropagation()
+                                 closeFile(filePath)
+                               }}
+                               className="ml-2 rounded-sm p-0.5 hover:bg-muted hover:text-foreground text-muted-foreground"
+                             >
+                               <X className="size-3" />
+                             </button>
+                           </div>
+                         )
+                       })
                      ) : previewCode ? (
                        <div className="flex h-8 items-center border-t border-x border-border bg-background px-4 text-xs font-medium text-foreground relative top-px rounded-t-sm">
                          <Code2 className="mr-2 size-3.5 text-blue-400" /> preview.tsx
@@ -526,13 +549,13 @@ export default function ChatApp() {
                        </div>
                      ) : (
                        <div className="flex h-8 items-center px-4 text-xs text-muted-foreground">
-                         <Code2 className="mr-2 size-3.5 opacity-40" /> No file open
+                         <Code2 className="mr-2 size-3.5 opacity-40" /> No files open
                        </div>
                      )}
                    </div>
                    <div className="flex-1 relative overflow-hidden">
                      {activeFile ? (
-                       <CodeEditor file={activeFile} />
+                       <CodeEditor file={activeFile} onChange={updateFile} />
                      ) : previewCode ? (
                        <CodePreviewPanel code={previewCode} onClose={() => setPreviewCode(null)} />
                      ) : (

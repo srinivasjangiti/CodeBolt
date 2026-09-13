@@ -50,8 +50,8 @@ An ultra-fast, production-ready ChatGPT-style coding assistant powered by **NVID
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/srinivasajan/CodeBolt.git
-   cd CodeBolt
+   git clone https://github.com/srinivasjangiti/Codebolt.git
+   cd Codebolt
    ```
 
 2. **Install dependencies**

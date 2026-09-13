@@ -4,12 +4,53 @@ import { streamChat, messagesToNvidia } from '@/lib/nvidia'
 import type { Message, ChatSettings } from '@/types'
 import { DEFAULT_SETTINGS } from '@/types'
 
+const SETTINGS_STORAGE_KEY = 'codebolt_chat_settings'
+
+function loadSavedSettings(): ChatSettings {
+  if (typeof window === 'undefined') return DEFAULT_SETTINGS
+  try {
+    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY)
+    const nvidiaKey = localStorage.getItem('VITE_NVIDIA_API_KEY') || ''
+    if (!raw) {
+      return {
+        ...DEFAULT_SETTINGS,
+        apiKeys: { ...DEFAULT_SETTINGS.apiKeys, nvidia: nvidiaKey },
+      }
+    }
+    const parsed = JSON.parse(raw)
+    return {
+      ...DEFAULT_SETTINGS,
+      ...parsed,
+      apiKeys: {
+        ...DEFAULT_SETTINGS.apiKeys,
+        ...(parsed.apiKeys || {}),
+        nvidia: parsed.apiKeys?.nvidia || nvidiaKey,
+      },
+    }
+  } catch {
+    return DEFAULT_SETTINGS
+  }
+}
+
 export function useMessages(chatId: string | null) {
   const [messages, setMessages] = useState<Message[]>([])
   const [isStreaming, setIsStreaming] = useState(false)
   const [streamingContent, setStreamingContent] = useState('')
-  const [settings, setSettings] = useState<ChatSettings>(DEFAULT_SETTINGS)
+  const [settings, setSettings] = useState<ChatSettings>(loadSavedSettings)
   const abortRef = useRef<AbortController | null>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings))
+        if (settings.apiKeys?.nvidia) {
+          localStorage.setItem('VITE_NVIDIA_API_KEY', settings.apiKeys.nvidia)
+        }
+      } catch (e) {
+        console.error('Failed to save settings to localStorage', e)
+      }
+    }
+  }, [settings])
 
   useEffect(() => {
     if (!chatId) {

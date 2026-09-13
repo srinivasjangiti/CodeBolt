@@ -13,6 +13,13 @@ interface AttachedFile {
   size: number
 }
 
+export const SLASH_COMMANDS = [
+  { prefix: '/fix', label: 'Fix Bugs', prompt: 'Analyze this project/file for syntax errors, logic bugs, and edge cases, and provide fixes.' },
+  { prefix: '/refactor', label: 'Refactor', prompt: 'Refactor this code to improve readability, modularity, and adherence to modern best practices.' },
+  { prefix: '/test', label: 'Tests', prompt: 'Write comprehensive automated test suites covering edge cases and error states.' },
+  { prefix: '/explain', label: 'Explain', prompt: 'Explain the architecture and logic of this code step-by-step with clear diagrams or bullet points.' },
+]
+
 interface ChatInputProps {
   onSend: (content: string, images?: string[]) => void
   onStop: () => void
@@ -95,10 +102,19 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled, placeholder, 
     const trimmed = value.trim()
     if ((!trimmed && images.length === 0 && attachedFiles.length === 0) || isStreaming || disabled) return
 
-    let combinedContent = trimmed
+    let userText = trimmed
+    for (const cmd of SLASH_COMMANDS) {
+      if (userText === cmd.prefix || userText.startsWith(cmd.prefix + ' ')) {
+        const extra = userText.slice(cmd.prefix.length).trim()
+        userText = extra ? `${cmd.prompt}\n\nAdditional instructions: ${extra}` : cmd.prompt
+        break
+      }
+    }
+
+    let combinedContent = userText
     if (attachedFiles.length > 0) {
       const fileTexts = attachedFiles.map(f => `--- File: ${f.name} ---\n${f.content}`).join('\n\n')
-      combinedContent = trimmed ? `${trimmed}\n\n${fileTexts}` : fileTexts
+      combinedContent = userText ? `${userText}\n\n${fileTexts}` : fileTexts
     }
 
     onSend(combinedContent, images.length > 0 ? images : undefined)
@@ -244,6 +260,24 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled, placeholder, 
                   <X className="size-3" />
                 </button>
               </div>
+            ))}
+          </div>
+        )}
+        
+        {/* Quick Prompts / Slash Commands */}
+        {!isStreaming && !value && (
+          <div className="mb-2 flex flex-wrap items-center gap-1.5 px-2">
+            <span className="text-[11px] font-medium text-muted-foreground/80 mr-1">Quick prompts:</span>
+            {SLASH_COMMANDS.map(cmd => (
+              <button
+                key={cmd.prefix}
+                type="button"
+                onClick={() => setValue(cmd.prompt)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/30 px-2.5 py-1 text-[11px] text-muted-foreground transition hover:border-amber-500/40 hover:bg-amber-500/10 hover:text-amber-400"
+              >
+                <span className="font-semibold text-amber-400">{cmd.prefix}</span>
+                <span>{cmd.label}</span>
+              </button>
             ))}
           </div>
         )}

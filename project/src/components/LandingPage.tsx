@@ -78,7 +78,7 @@ export default function LandingPage() {
             <a href="#models" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Models
             </a>
-            <a href="https://github.com/srinivasajan/CodeBolt" target="_blank" rel="noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="https://github.com/srinivasjangiti/Codebolt" target="_blank" rel="noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               GitHub
             </a>
             <SignedOut>

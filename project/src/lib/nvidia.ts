@@ -55,6 +55,7 @@ export async function streamChat(
 
       if (apiKey) {
         headers['x-api-key'] = apiKey;
+        headers['x-nvidia-api-key'] = apiKey;
       }
       if (baseUrl) {
         headers['x-base-url'] = baseUrl;

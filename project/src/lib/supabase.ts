@@ -27,6 +27,7 @@ export type Database = {
       chats: {
         Row: {
           id: string
+          user_id?: string | null
           title: string
           model: string
           created_at: string
@@ -34,6 +35,7 @@ export type Database = {
         }
         Insert: {
           id?: string
+          user_id?: string | null
           title?: string
           model?: string
           created_at?: string
@@ -41,6 +43,7 @@ export type Database = {
         }
         Update: {
           id?: string
+          user_id?: string | null
           title?: string
           model?: string
           updated_at?: string
