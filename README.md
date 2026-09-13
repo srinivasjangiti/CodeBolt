@@ -241,9 +241,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 *AI Engineer & Full-Stack Architect*
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/srinivasajan/)
-[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/srinivasajan)
-[![Substack](https://img.shields.io/badge/Substack-FF6719?style=for-the-badge&logo=substack&logoColor=white)](https://substack.com/@srinivasjan)
-[![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@srinivasajan)
+[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/sriwanders)
+[![Substack](https://img.shields.io/badge/Substack-FF6719?style=for-the-badge&logo=substack&logoColor=white)](https://substack.com/@sriwanders)
+[![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@sriwanders)
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@srinivasjan)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/srinivasjangiti)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:srinivasajan.work@gmail.com)
@@ -256,9 +256,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | Channel | Link |
 | :--- | :--- |
 | 💼 **LinkedIn** | [linkedin.com/in/srinivasajan](https://www.linkedin.com/in/srinivasajan/) |
-| 𝕏 **X (Twitter)** | [x.com/srinivasajan](https://x.com/srinivasajan) |
-| 📰 **Substack** | [substack.com/@srinivasjan](https://substack.com/@srinivasjan) |
-| ✍️ **Medium** | [medium.com/@srinivasajan](https://medium.com/@srinivasajan) |
+| 𝕏 **X (Twitter)** | [x.com/sriwanders](https://x.com/sriwanders) |
+| 📰 **Substack** | [substack.com/@sriwanders](https://substack.com/@sriwanders) |
+| ✍️ **Medium** | [medium.com/@sriwanders](https://medium.com/@sriwanders) |
 | 🎥 **YouTube** | [youtube.com/@srinivasjan](https://www.youtube.com/@srinivasjan) |
 | 🐙 **GitHub** | [github.com/srinivasjangiti](https://github.com/srinivasjangiti) |
 | 📧 **Email** | [srinivasajan.work@gmail.com](mailto:srinivasajan.work@gmail.com) |
@@ -299,7 +299,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For issues, questions, or suggestions:
 - Open an issue on [GitHub](https://github.com/srinivasjangiti/Codebolt/issues)
 - Email: [srinivasajan.work@gmail.com](mailto:srinivasajan.work@gmail.com)
-- Tweet: [@srinivasajan](https://x.com/srinivasajan)
+- Tweet: [@sriwanders](https://x.com/sriwanders)
 
 ---
 

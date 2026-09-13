@@ -337,7 +337,7 @@ export default function LandingPage() {
                 </a>
 
                 <a
-                  href="https://x.com/srinivasajan"
+                  href="https://x.com/sriwanders"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-zinc-400 hover:bg-zinc-800/40 transition-all shadow-sm"
@@ -347,7 +347,7 @@ export default function LandingPage() {
                 </a>
 
                 <a
-                  href="https://substack.com/@srinivasjan"
+                  href="https://substack.com/@sriwanders"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-[#FF6719]/60 hover:bg-[#FF6719]/10 transition-all shadow-sm"
@@ -357,7 +357,7 @@ export default function LandingPage() {
                 </a>
 
                 <a
-                  href="https://medium.com/@srinivasajan"
+                  href="https://medium.com/@sriwanders"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-emerald-400 hover:bg-emerald-500/10 transition-all shadow-sm"
@@ -438,13 +438,13 @@ export default function LandingPage() {
                 <a href="https://www.linkedin.com/in/srinivasajan/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                   LinkedIn
                 </a>
-                <a href="https://x.com/srinivasajan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="https://x.com/sriwanders" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                   X (Twitter)
                 </a>
-                <a href="https://substack.com/@srinivasjan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="https://substack.com/@sriwanders" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                   Substack Newsletter
                 </a>
-                <a href="https://medium.com/@srinivasajan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="https://medium.com/@sriwanders" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                   Medium Publications
                 </a>
                 <a href="https://www.youtube.com/@srinivasjan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
