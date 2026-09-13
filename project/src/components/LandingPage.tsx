@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton, useAuth } from '@clerk/clerk-react'
-import { Zap, ArrowRight, Code2, Database, Palette, Smartphone } from 'lucide-react'
+import { Zap, ArrowRight, Code2, Database, Palette, Smartphone, Mail, Phone, ExternalLink, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
@@ -297,60 +297,168 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border/10 py-12 sm:py-16">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/70">
-                  <Zap className="h-4 w-4 text-white" />
+      {/* Creator Spotlight */}
+      <section className="py-16 sm:py-20 border-t border-border/40 relative overflow-hidden bg-background/50">
+        <div className="container mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="relative rounded-3xl border border-amber-500/20 bg-gradient-to-b from-card/90 via-card/50 to-background/90 p-8 sm:p-12 shadow-2xl backdrop-blur-xl">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="space-y-3 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400 uppercase tracking-wider">
+                  <Sparkles className="size-3.5 fill-amber-400" />
+                  Creator & Lead Architect
                 </div>
-                <span className="font-semibold">CODEBOLT</span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+                  Crafted by <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 bg-clip-text text-transparent">Srinivas Jangiti</span>
+                </h2>
+                <p className="text-sm text-muted-foreground max-w-lg">
+                  AI Engineer & Full-Stack Architect building modern AI coding companions, developer tooling, and high-performance intelligent systems.
+                </p>
+                <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3 text-xs text-muted-foreground">
+                  <a href="mailto:srinivasajan.work@gmail.com" className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors">
+                    <Mail className="size-3.5 text-amber-400" /> srinivasajan.work@gmail.com
+                  </a>
+                  <span className="hidden sm:inline opacity-30">•</span>
+                  <a href="tel:+918767505121" className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors">
+                    <Phone className="size-3.5 text-emerald-400" /> +91 8767505121
+                  </a>
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground">Ultra-fast AI coding assistant powered by NVIDIA NIM.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-sm mb-3">Links</h4>
-              <div className="flex flex-col gap-2 text-sm">
-                <a href="https://github.com/srinivasajan/CodeBolt" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                  GitHub
+
+              {/* Social Channels Badges */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 w-full md:w-auto">
+                <a
+                  href="https://www.linkedin.com/in/srinivasajan/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-[#0077B5]/60 hover:bg-[#0077B5]/10 transition-all shadow-sm"
+                >
+                  <span className="font-bold text-[#0077B5]">in</span>
+                  <span>LinkedIn</span>
                 </a>
-                <a href="https://nvidia.com/nim" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                  NVIDIA NIM
+
+                <a
+                  href="https://x.com/srinivasajan"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-zinc-400 hover:bg-zinc-800/40 transition-all shadow-sm"
+                >
+                  <span className="font-bold text-foreground">𝕏</span>
+                  <span>x.com</span>
                 </a>
-                <a href="https://supabase.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Supabase
+
+                <a
+                  href="https://substack.com/@srinivasjan"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-[#FF6719]/60 hover:bg-[#FF6719]/10 transition-all shadow-sm"
+                >
+                  <span className="font-bold text-[#FF6719]">S</span>
+                  <span>Substack</span>
                 </a>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-semibold text-sm mb-3">Made By</h4>
-              <div className="flex flex-col gap-2 text-sm">
-                <p className="text-muted-foreground">Srinivas Jangiti</p>
-                <a href="tel:+918767505121" className="text-muted-foreground hover:text-foreground transition-colors">
-                  +91 8767505121
+
+                <a
+                  href="https://medium.com/@srinivasajan"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-emerald-400 hover:bg-emerald-500/10 transition-all shadow-sm"
+                >
+                  <span className="font-bold text-foreground">M</span>
+                  <span>Medium</span>
                 </a>
-                <a href="mailto:srinivasajan.work@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors">
-                  srinivasajan.work@gmail.com
+
+                <a
+                  href="https://www.youtube.com/@srinivasjan"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-[#FF0000]/60 hover:bg-[#FF0000]/10 transition-all shadow-sm"
+                >
+                  <span className="font-bold text-[#FF0000]">▶</span>
+                  <span>YouTube</span>
                 </a>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-semibold text-sm mb-3">Connect</h4>
-              <div className="flex flex-col gap-2 text-sm">
-                <a href="https://x.com/srinivasajan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Twitter / X
-                </a>
-                <a href="https://www.linkedin.com/in/srinivasajan/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                  LinkedIn
+
+                <a
+                  href="https://github.com/srinivasjangiti"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3.5 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-amber-400 hover:bg-amber-500/10 transition-all shadow-sm"
+                >
+                  <span className="font-bold text-amber-400">GH</span>
+                  <span>GitHub</span>
                 </a>
               </div>
             </div>
           </div>
-          <div className="border-t border-border/10 pt-8">
-            <p className="text-xs text-muted-foreground text-center">
-              © 2026 CODEBOLT. Built with React, TypeScript, Vite, and NVIDIA NIM. All rights reserved.
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border/20 bg-background/80 py-12 sm:py-16">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/70 shadow-sm">
+                  <Zap className="h-4 w-4 text-white" />
+                </div>
+                <span className="font-bold text-base tracking-wide">CODEBOLT</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Ultra-fast AI coding assistant and in-browser IDE powered by NVIDIA NIM, Gemini, and OpenAI.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-sm mb-3 text-foreground">Project Links</h4>
+              <div className="flex flex-col gap-2 text-xs">
+                <a href="https://github.com/srinivasjangiti/Codebolt" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
+                  GitHub Repository <ExternalLink className="size-3 opacity-60" />
+                </a>
+                <a href="https://build.nvidia.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
+                  NVIDIA NIM <ExternalLink className="size-3 opacity-60" />
+                </a>
+                <a href="https://supabase.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
+                  Supabase <ExternalLink className="size-3 opacity-60" />
+                </a>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold text-sm mb-3 text-foreground">Creator & Contact</h4>
+              <div className="flex flex-col gap-2 text-xs">
+                <p className="font-medium text-foreground">Srinivas Jangiti</p>
+                <a href="mailto:srinivasajan.work@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5">
+                  <Mail className="size-3 text-amber-400" /> srinivasajan.work@gmail.com
+                </a>
+                <a href="tel:+918767505121" className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5">
+                  <Phone className="size-3 text-emerald-400" /> +91 8767505121
+                </a>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold text-sm mb-3 text-foreground">Connect</h4>
+              <div className="flex flex-col gap-2 text-xs">
+                <a href="https://www.linkedin.com/in/srinivasajan/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                  LinkedIn
+                </a>
+                <a href="https://x.com/srinivasajan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                  X (Twitter)
+                </a>
+                <a href="https://substack.com/@srinivasjan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Substack Newsletter
+                </a>
+                <a href="https://medium.com/@srinivasajan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Medium Publications
+                </a>
+                <a href="https://www.youtube.com/@srinivasjan" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                  YouTube Channel
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-border/20 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+            <p>
+              © 2026 CODEBOLT. Created with ❤️ by <a href="https://github.com/srinivasjangiti" target="_blank" rel="noreferrer" className="font-medium text-foreground hover:text-primary transition-colors">Srinivas Jangiti</a>.
+            </p>
+            <p className="text-[11px]">
+              Powered by NVIDIA NIM, React, TypeScript, Vite & Supabase.
             </p>
           </div>
         </div>

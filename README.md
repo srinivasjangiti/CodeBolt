@@ -233,18 +233,37 @@ Contributions are welcome! Please:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 About the Creator
+## 👨‍💻 Creator & Author
 
-**Srinivas Jangiti**
+<div align="center">
 
-Ultra-fast AI coding assistant built from scratch using modern web technologies.
+### **Srinivas Jangiti**
+*AI Engineer & Full-Stack Architect*
 
-### Contact
-- 📞 **Phone**: [+91 8767505121](tel:+918767505121)
-- 📧 **Email**: [srinivasajan.work@gmail.com](mailto:srinivasajan.work@gmail.com)
-- 🐦 **Twitter**: [@srinivasajan](https://x.com/srinivasajan)
-- 💼 **LinkedIn**: [Srinivas Jangiti](https://www.linkedin.com/in/srinivasajan/)
-- 🐙 **GitHub**: [srinivasajan](https://github.com/srinivasajan)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/srinivasajan/)
+[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/srinivasajan)
+[![Substack](https://img.shields.io/badge/Substack-FF6719?style=for-the-badge&logo=substack&logoColor=white)](https://substack.com/@srinivasjan)
+[![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@srinivasajan)
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@srinivasjan)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/srinivasjangiti)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:srinivasajan.work@gmail.com)
+[![Call](https://img.shields.io/badge/Phone-+91_8767505121-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](tel:+918767505121)
+
+</div>
+
+### 🌐 Connect with Srinivas Jangiti
+
+| Channel | Link |
+| :--- | :--- |
+| 💼 **LinkedIn** | [linkedin.com/in/srinivasajan](https://www.linkedin.com/in/srinivasajan/) |
+| 𝕏 **X (Twitter)** | [x.com/srinivasajan](https://x.com/srinivasajan) |
+| 📰 **Substack** | [substack.com/@srinivasjan](https://substack.com/@srinivasjan) |
+| ✍️ **Medium** | [medium.com/@srinivasajan](https://medium.com/@srinivasajan) |
+| 🎥 **YouTube** | [youtube.com/@srinivasjan](https://www.youtube.com/@srinivasjan) |
+| 🐙 **GitHub** | [github.com/srinivasjangiti](https://github.com/srinivasjangiti) |
+| 📧 **Email** | [srinivasajan.work@gmail.com](mailto:srinivasajan.work@gmail.com) |
+| 📞 **Phone** | [+91 8767505121](tel:+918767505121) |
+
 
 ## 🙏 Acknowledgments
 
@@ -278,12 +297,12 @@ Ultra-fast AI coding assistant built from scratch using modern web technologies.
 ## 📞 Support
 
 For issues, questions, or suggestions:
-- Open an issue on [GitHub](https://github.com/srinivasajan/CodeBolt/issues)
+- Open an issue on [GitHub](https://github.com/srinivasjangiti/Codebolt/issues)
 - Email: [srinivasajan.work@gmail.com](mailto:srinivasajan.work@gmail.com)
 - Tweet: [@srinivasajan](https://x.com/srinivasajan)
 
 ---
 
-**Made with ❤️ by [Srinivas Jangiti](https://github.com/srinivasajan)**
+**Made with ❤️ by [Srinivas Jangiti](https://github.com/srinivasjangiti)**
 
 *"Build faster. Think clearer. Code better."* ⚡
