@@ -1,23 +1,19 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth } from '@/lib/auth'
 import LandingPage from '@/components/LandingPage'
 import ChatApp from '@/components/ChatApp'
+import { EnvSetupScreen } from '@/components/EnvSetupScreen'
 import { ThemeProvider } from '@/components/theme-provider'
 
 function ProtectedApp() {
   const { isLoaded, isSignedIn } = useAuth()
-  const apiKey = localStorage.getItem('VITE_NVIDIA_API_KEY')
 
   if (!isLoaded) {
     return <div className="grid min-h-screen place-items-center text-sm text-muted-foreground">Loading...</div>
   }
 
   if (!isSignedIn) {
-    return <Navigate to="/" replace />
-  }
-
-  if (!apiKey) {
     return <Navigate to="/" replace />
   }
 
@@ -29,6 +25,7 @@ function AppRouter() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/app" element={<ProtectedApp />} />
+      <Route path="/setup" element={<EnvSetupScreen />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

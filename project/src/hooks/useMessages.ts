@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import { streamChat, messagesToNvidia } from '@/lib/nvidia'
 import type { Message, ChatSettings } from '@/types'
 import { DEFAULT_SETTINGS } from '@/types'
@@ -32,6 +32,25 @@ function loadSavedSettings(): ChatSettings {
   }
 }
 
+function getLocalMessages(chatId: string): Message[] {
+  if (typeof window === 'undefined') return []
+  try {
+    const raw = localStorage.getItem('codebolt_msgs_' + chatId)
+    return raw ? JSON.parse(raw) : []
+  } catch {
+    return []
+  }
+}
+
+function saveLocalMessages(chatId: string, msgs: Message[]) {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.setItem('codebolt_msgs_' + chatId, JSON.stringify(msgs))
+  } catch (e) {
+    console.error('Failed to save local messages', e)
+  }
+}
+
 export function useMessages(chatId: string | null) {
   const [messages, setMessages] = useState<Message[]>([])
   const [isStreaming, setIsStreaming] = useState(false)
@@ -58,15 +77,29 @@ export function useMessages(chatId: string | null) {
       return
     }
 
+    if (!isSupabaseConfigured) {
+      setMessages(getLocalMessages(chatId))
+      return
+    }
+
     setMessages([])
     supabase
       .from('messages')
       .select('*')
       .eq('chat_id', chatId)
       .order('created_at', { ascending: true })
-      .then(({ data }) => {
-        if (data) setMessages(data as Message[])
-      })
+      .then(
+        ({ data, error }) => {
+          if (!error && data) {
+            setMessages(data as Message[])
+          } else {
+            setMessages(getLocalMessages(chatId))
+          }
+        },
+        () => {
+          setMessages(getLocalMessages(chatId))
+        }
+      )
   }, [chatId])
 
   const sendMessage = useCallback(
@@ -90,18 +123,26 @@ export function useMessages(chatId: string | null) {
         created_at: new Date().toISOString(),
       }
 
-      setMessages((prev) => [...prev, userMsg])
-
-      await supabase.from('messages').insert({
-        chat_id: chatId,
-        role: 'user',
-        content: finalContent,
+      setMessages((prev) => {
+        const next = [...prev, userMsg]
+        if (!isSupabaseConfigured) saveLocalMessages(chatId, next)
+        return next
       })
+
+      if (isSupabaseConfigured) {
+        supabase.from('messages').insert({
+          chat_id: chatId,
+          role: 'user',
+          content: finalContent,
+        }).then(() => {}, () => {})
+      }
 
       // Auto-generate title from first message
       if (messages.length === 0 && content.trim()) {
         const title = content.slice(0, 60).trim()
-        await supabase.from('chats').update({ title }).eq('id', chatId)
+        if (isSupabaseConfigured) {
+          supabase.from('chats').update({ title }).eq('id', chatId).then(() => {}, () => {})
+        }
         onTitleUpdate?.(title)
       }
 
@@ -112,7 +153,6 @@ export function useMessages(chatId: string | null) {
       abortRef.current = abortController
 
       let fullContent = ''
-
       const allMessages = [...messages, userMsg]
 
       await streamChat(
@@ -136,13 +176,19 @@ export function useMessages(chatId: string | null) {
               content: fullContent,
               created_at: new Date().toISOString(),
             }
-            setMessages((prev) => [...prev, assistantMsg])
-
-            await supabase.from('messages').insert({
-              chat_id: chatId,
-              role: 'assistant',
-              content: fullContent,
+            setMessages((prev) => {
+              const next = [...prev, assistantMsg]
+              if (!isSupabaseConfigured) saveLocalMessages(chatId, next)
+              return next
             })
+
+            if (isSupabaseConfigured) {
+              await supabase.from('messages').insert({
+                chat_id: chatId,
+                role: 'assistant',
+                content: fullContent,
+              }).then(() => {}, () => {})
+            }
             // Callback so ChatApp can parse file edits from the response
             onStreamDone?.(fullContent)
           }
@@ -157,7 +203,11 @@ export function useMessages(chatId: string | null) {
             content: `Error: ${error.message}`,
             created_at: new Date().toISOString(),
           }
-          setMessages((prev) => [...prev, errMsg])
+          setMessages((prev) => {
+            const next = [...prev, errMsg]
+            if (!isSupabaseConfigured) saveLocalMessages(chatId, next)
+            return next
+          })
         }
       )
     },
@@ -178,7 +228,6 @@ export function useMessages(chatId: string | null) {
       if (lastUserIdx === -1) return
 
       const actualIdx = messages.length - 1 - lastUserIdx
-      const lastUserMsg = messages[actualIdx]
       const messagesUpToUser = messages.slice(0, actualIdx + 1)
 
       // Remove last assistant message if present
@@ -188,6 +237,7 @@ export function useMessages(chatId: string | null) {
           : messages
 
       setMessages(withoutLast)
+      if (!isSupabaseConfigured && chatId) saveLocalMessages(chatId, withoutLast)
 
       const abortController = new AbortController()
       abortRef.current = abortController
@@ -217,12 +267,18 @@ export function useMessages(chatId: string | null) {
               content: fullContent,
               created_at: new Date().toISOString(),
             }
-            setMessages((prev) => [...prev, assistantMsg])
-            await supabase.from('messages').insert({
-              chat_id: chatId!,
-              role: 'assistant',
-              content: fullContent,
+            setMessages((prev) => {
+              const next = [...prev, assistantMsg]
+              if (!isSupabaseConfigured && chatId) saveLocalMessages(chatId, next)
+              return next
             })
+            if (isSupabaseConfigured) {
+              await supabase.from('messages').insert({
+                chat_id: chatId!,
+                role: 'assistant',
+                content: fullContent,
+              }).then(() => {}, () => {})
+            }
           }
         },
         (_err) => {
@@ -231,7 +287,6 @@ export function useMessages(chatId: string | null) {
         }
       )
 
-      void lastUserMsg
       void onTitleUpdate
     },
     [chatId, isStreaming, messages, settings]
@@ -239,7 +294,12 @@ export function useMessages(chatId: string | null) {
 
   const clearMessages = useCallback(async () => {
     if (!chatId) return
-    await supabase.from('messages').delete().eq('chat_id', chatId)
+    if (isSupabaseConfigured) {
+      await supabase.from('messages').delete().eq('chat_id', chatId).then(() => {}, () => {})
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('codebolt_msgs_' + chatId)
+    }
     setMessages([])
   }, [chatId])
 

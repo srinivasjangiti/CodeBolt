@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton, useAuth } from '@clerk/clerk-react'
+import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton, useAuth } from '@/lib/auth'
 import { Zap, ArrowRight, Code2, Database, Palette, Smartphone, Mail, Phone, ExternalLink, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -175,7 +175,7 @@ export default function LandingPage() {
                 <Button size="lg" onClick={handleStartBuild} className="gap-2">
                   Enter NVIDIA Key <ArrowRight className="h-5 w-5" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => window.open('https://github.com/srinivasajan/CodeBolt', '_blank')}>
+                <Button size="lg" variant="outline" onClick={() => window.open('https://github.com/srinivasjangiti/Codebolt', '_blank')}>
                   View on GitHub
                 </Button>
               </div>

@@ -19,7 +19,7 @@ import { useMessages } from '@/hooks/useMessages'
 import { cn } from '@/lib/utils'
 import type { Chat } from '@/types'
 import { NVIDIA_MODELS } from '@/types'
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import JSZip from 'jszip'
 import { parseFileActions } from '@/lib/fileEdits'
 
@@ -261,12 +261,14 @@ export default function ChatApp() {
       created_at: m.created_at
     }))
 
-    const { error } = await supabase.from('messages').insert(messagesToInsert)
-
-    if (error) {
-      console.error('Error copying messages:', error)
-      toast.error('Failed to copy messages to new chat')
-      return
+    if (!isSupabaseConfigured) {
+      localStorage.setItem('codebolt_msgs_' + newChat.id, JSON.stringify(messagesToInsert))
+    } else {
+      const { error } = await supabase.from('messages').insert(messagesToInsert)
+      if (error) {
+        console.warn('Supabase insert failed, saving locally:', error)
+        localStorage.setItem('codebolt_msgs_' + newChat.id, JSON.stringify(messagesToInsert))
+      }
     }
 
     // Switch to the new chat

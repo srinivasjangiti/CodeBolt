@@ -15,8 +15,8 @@ import {
 import { cn } from '@/lib/utils'
 import type { Chat } from '@/types'
 import { useFolders } from '@/hooks/useFolders'
-import { supabase } from '@/lib/supabase'
-import { useAuth } from '@clerk/clerk-react'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import { useAuth } from '@/lib/auth'
 
 interface ChatSidebarProps {
   chats: Chat[]
@@ -64,6 +64,18 @@ export function ChatSidebar({
     const timer = setTimeout(async () => {
       setIsSearching(true)
       try {
+        if (!isSupabaseConfigured) {
+          const matchedIds: string[] = []
+          for (const chat of chats) {
+            const raw = localStorage.getItem('codebolt_msgs_' + chat.id)
+            if (raw && raw.toLowerCase().includes(searchQuery.toLowerCase())) {
+              matchedIds.push(chat.id)
+            }
+          }
+          setSearchResults(matchedIds)
+          return
+        }
+
         const { data } = await supabase
           .from('messages')
           .select('chat_id')
